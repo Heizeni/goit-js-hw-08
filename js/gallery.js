@@ -103,20 +103,33 @@ const images = [
   }
   
   function showImage(index) {
-    const { original, description } = images[index];
-  
-    instance = basicLightbox.create(`
-      <div class="modal-wrapper">
-        <img src="${original}" alt="${description}" width="800" height="600" />
-        <p class="modal-caption">${description}</p>
-      </div>
-    `, {
-      onShow: () => window.addEventListener('keydown', onKeyPress),
-      onClose: () => window.removeEventListener('keydown', onKeyPress),
-    });
-  
-    instance.show();
-  }
+  const { original, description } = images[index];
+
+  instance = basicLightbox.create(
+    `
+    <div class="modal-wrapper" style="width: 1112px; height: 640px; display: flex; align-items: center; justify-content: center; background-color: rgba(46, 47, 66, 0.8);">
+      <img src="${original}" alt="${description}" />
+    </div>
+    `,
+    {
+      onShow: (instance) => {
+        window.addEventListener('keydown', onKeyPress);
+
+        const modalElement = instance.element();
+        modalElement.addEventListener('click', (event) => {
+          if (event.target.tagName !== 'IMG') {
+            instance.close();
+          }
+        });
+      },
+      onClose: () => {
+        window.removeEventListener('keydown', onKeyPress);
+      },
+    }
+  );
+
+  instance.show();
+}
   
   function onKeyPress(evt) {
     if (evt.key === 'Escape') {
