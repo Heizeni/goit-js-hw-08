@@ -107,8 +107,9 @@ const images = [
 
   instance = basicLightbox.create(
     `
-    <div class="modal-wrapper" style="width: 1112px; height: 640px; display: flex; align-items: center; justify-content: center; background-color: rgba(46, 47, 66, 0.8);">
+    <div class="modal-wrapper" style="width: 1112px; height: 640px; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: rgba(46, 47, 66, 0.8);">
       <img src="${original}" alt="${description}" />
+      <p class="modal-caption" style="color: white; margin-top: 0px; font-size: 18px;">${description}</p>
     </div>
     `,
     {
@@ -144,9 +145,12 @@ const images = [
   }
   
   function updateModalImage(index) {
-    const modalWrapper = instance.element().querySelector('.modal-wrapper');
-    modalWrapper.querySelector('img').src = images[index].original;
-    modalWrapper.querySelector('img').alt = images[index].description;
-    modalWrapper.querySelector('.modal-caption').textContent = images[index].description;
-  }
+  const modalWrapper = instance.element().querySelector('.modal-wrapper');
+  const img = modalWrapper.querySelector('img');
+  const caption = modalWrapper.querySelector('.modal-caption');
+
+  img.src = images[index].original;
+  img.alt = images[index].description;
+  caption.textContent = images[index].description;
+}
   
